@@ -1,6 +1,7 @@
 #imports
 from tkinter import *
 from tkinter import Tk
+from classes.window.window_register import RegisterWindow
  
 #Main window class:
 class MainWindow:
@@ -30,7 +31,7 @@ class MainWindow:
         self.exit_btn.grid(row=3, column=1, columnspan=2, padx=20, pady=10, sticky="NSEW")
  
     def open_register_window(self):
-        pass
+        RegisterWindow()
  
     def open_login_window(self):
         print('it works')
