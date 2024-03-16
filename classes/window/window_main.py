@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import Tk
 from classes.window.window_register import RegisterWindow
+from classes.window.window_login import LoginWindow
  
 #Main window class:
 class MainWindow:
@@ -34,4 +35,4 @@ class MainWindow:
         RegisterWindow()
  
     def open_login_window(self):
-        print('it works')
+        LoginWindow()
