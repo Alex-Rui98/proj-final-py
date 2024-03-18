@@ -24,7 +24,7 @@ class CheckLogin:
             # Converter o salt para bytes
             stored_salt = bytes.fromhex(stored_salt_hex)
 
-            # Hash the entered password with the stored salt using PBKDF2 with SHA-256
+            # hash a senha inserida com o sal armazenado
             hashed_password = hashlib.pbkdf2_hmac('sha256', password_entry.encode('utf-8'), stored_salt, 100000).hex()
 
             # Comparação da password introduzida com a da db
@@ -32,8 +32,8 @@ class CheckLogin:
                 messagebox.showinfo("Login was Successful")
                 return True
             else:
-                messagebox.showerror("Login Failed", "Credentials are invalid.")
+                messagebox.showerror( "Credentials are invalid.")
                 return False
         else:
-            messagebox.showerror("Login Failed", "User not found.")
+            messagebox.showerror("User not found.")
             return False
