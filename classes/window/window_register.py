@@ -91,7 +91,7 @@ class RegisterWindow:
         cursor = conn.cursor()
 
         cursor.execute(
-            "INSERT INTO funcionario (primeiro_nome, ultimo_nome,nib,nivel_escolaridade, password) VALUES (?, ?,?,?)", (first_name, last_name,nib,academics, password_to_store)
+            "INSERT INTO funcionario (primeiro_nome, ultimo_nome,nib,nivel_escolaridade, password) VALUES (?, ?,?,?,?)", (first_name, last_name,nib,academics, password_to_store)
         )
         conn.commit()
         conn.close()
