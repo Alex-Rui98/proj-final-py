@@ -2,7 +2,9 @@
 from tkinter import *
 from tkinter import Tk
 from classes.window.window_register import RegisterWindow
- 
+from classes.window.clock_in import RegisterWindowClock
+
+  
 #Main window class:
 class MainWindow:
     def __init__(self):
@@ -34,4 +36,6 @@ class MainWindow:
         RegisterWindow()
  
     def open_login_window(self):
-        print('it works')
+         register_window = RegisterWindowClock()
+
+
