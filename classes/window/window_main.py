@@ -1,7 +1,7 @@
 #imports
 from tkinter import Tk, Label, Entry, Button, Frame
 from classes.window.window_register import RegisterWindow
-#from classes.window.check_login import CheckLogin
+from classes.window.check_login import CheckLogin
  
 #Main window class:
 class MainWindow:
@@ -53,5 +53,4 @@ class MainWindow:
         RegisterWindow()
  
     def open_login_window(self):
-        pass
-        #CheckLogin(self.login_entry, self.password_entry)
+        CheckLogin(self.login_entry, self.password_entry)
