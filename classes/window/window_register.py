@@ -1,9 +1,9 @@
 from tkinter import *
-from tkinter import Tk
+from tkinter import Tk, messagebox
 import sqlite3
 import hashlib
 import os
-
+from classes.window.window_logged import LoggedWindow
 # Create class for the registration window
 class RegisterWindow:
     def __init__(self):
@@ -100,6 +100,44 @@ class RegisterWindow:
         self.registration_success_message = Label(self.register_window, text="Registration successful", fg="green")
         self.registration_success_message.grid(row=3, column=0, columnspan=2)
         self.registration_success_message.after(3000, self.register_window.destroy)
+
+
+class CheckLogin:
+    def __init__(self, id_entry, password_entry):
+        self.id_entry = id_entry
+        self.password_entry = password_entry
+        self.check_credentials(id_entry.get(), password_entry.get())
+
+    def check_credentials(self, id_entry, password_entry):
+        # efetua conexão com a db
+        conn = sqlite3.connect('func.db')
+        cursor = conn.cursor()
+
+        # pedir a tabela da db o id que seja identico ao introduzido
+        cursor.execute("SELECT password FROM funcionario WHERE id = ?", (id_entry,))
+        result = cursor.fetchone()
+
+        if result:
+            stored_password_hash = result[0]
+            # dividir a password entre salt e hash visto que já se encontram divididos por ":"
+            stored_salt_hex, stored_password_hash_hex = stored_password_hash.split(':')
+            # Converter o salt para bytes
+            stored_salt = bytes.fromhex(stored_salt_hex)
+
+            # hash a senha inserida com o sal armazenado
+            hashed_password = hashlib.pbkdf2_hmac('sha256', password_entry.encode('utf-8'), stored_salt, 100000).hex()
+
+            # Comparação da password introduzida com a da db
+            if hashed_password == stored_password_hash_hex:
+                messagebox.showinfo("Login status", "Login was Succesful")
+                return LoggedWindow(self.id_entry)
+                
+            else:
+                messagebox.showerror("Login status", "Login wasn't Succesful")
+                return False
+        else:
+            messagebox.showerror("User not found.")
+            return False
 
 # Example usage:
 # root = Tk()
