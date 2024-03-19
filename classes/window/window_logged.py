@@ -1,41 +1,31 @@
-from tkinter import Tk, Label, Entry, Button, Frame
-
-
+import customtkinter as ctk
 
 
 class LoggedWindow:
-    def __init__(self, id):
+
+    def __init__(self):
+
         # Create the main window
-        self.id_entry = id
-        self.main_window = Tk()
-        self.main_window.title(f"id: {self.id_entry}")
-        self.main_window.configure(bg="#1F2CA5")
+        self.logged_window = ctk.CTk()
+        self.logged_window.title("Employee Management")
+        self.logged_window.configure(fg_color="#EDF6F9")
+
+        # Guardar a font
+        font_normal_bold = ctk.CTkFont(family="Arial", size=14, weight="bold")
+        font_normal = ctk.CTkFont(family="Arial", size=14, weight="normal")
+        font_grande = ctk.CTkFont(family="Arial", size=20, weight="bold")
 
         # Create frames for better organization
-        self.top_frame = Frame(self.main_window, bg="#1F2CA5")
+        self.top_frame = ctk.CTkFrame(self.logged_window)
         self.top_frame.pack(pady=20, padx=10)
 
-        self.input_frame = Frame(self.main_window, bg="#1F2CA5")
+        self.input_frame = ctk.CTkFrame(self.logged_window, fg_color="#EDF6F9")
         self.input_frame.pack(pady=20, padx=10)
 
-        self.button_frame = Frame(self.main_window, bg="#1F2CA5")
+        self.button_frame = ctk.CTkFrame(self.logged_window, fg_color="#EDF6F9")
         self.button_frame.pack(pady=20, padx=10)
 
         # Welcome text configuration
-        self.welcome_lbl = Label(self.top_frame, text="id:"+ self.id, font="Arial 20", bg="#1F2CA5")
-        self.welcome_lbl.pack()
+        self.welcome_lbl = ctk.CTkLabel(self.top_frame, text='Employee Management', font=font_grande, text_color="#006D77", bg_color="#EDF6F9")
 
-           # Configuration of the register button
-        self.register_clock_btn = Button(self.register_window_clock, text="Register Clock", font="Arial 14", command=self.register_clock)
-        self.register_clock_btn.grid(row=4, column=0, columnspan=2, padx=20, pady=10, sticky="NSEW")
-       
-        # Exit button configuration
-        self.exit_btn = Button(self.button_frame, text='Exit', font="Arial 14", command=self.main_window.destroy, bg="#0F172A", fg='white')
-        self.exit_btn.grid(row=0, column=2, padx=20, pady=10)
-
-
-
-
- 
-     
- 
+       # self.logged_window.mainloop()
