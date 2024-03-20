@@ -59,6 +59,9 @@ class MainWindow:
         self.exit_btn = ctk.CTkButton(self.button_frame, text='Exit', font=font_normal, command=self.main_window.destroy, fg_color='#006D77')
         self.exit_btn.grid(row=0, column=2, padx=20, pady=10)
 
+    def id_exp(id_entry):
+        return id_entry
+
     def open_register_window(self):
         RegisterWindow()
  
@@ -74,6 +77,8 @@ class CheckLogin:
         self.id_entry = id_entry
         self.password_entry = password_entry
         self.check_credentials(id_entry.get(), password_entry.get())
+    
+    
     def check_credentials(self, id_entry, password_entry):
         # efetua conexão com a db
         conn = sqlite3.connect('func.db')
@@ -98,7 +103,7 @@ class CheckLogin:
                 CTkMessagebox(title="", message="Login was succesful!",
                   icon="check", option_1="Thanks")
                 self.main_window.withdraw()
-                nova_janela = LoggedWindow()
+                nova_janela = LoggedWindow(id_entry)
                 nova_janela.logged_window.mainloop()
                 
                 
