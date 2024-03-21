@@ -63,26 +63,26 @@ class LoggedWindow:
 
         conn.close()
 
-
-
-
-    def format_current_day_out(self):
-        current_day = datetime.now().strftime("%Y-%m-%d") 
-        return current_day
-        
-    def format_current_hour_out(self):
-        current_hour = datetime.now().strftime("%H:%M")
-        return current_hour
     
     def register_clock_out(self):
+
+        print(self.id_entry)
 
         conn = sqlite3.connect('func.db')
             
         cursor = conn.cursor()
 
-        cursor.execute(
-            "INSERT INTO clock (worker, clock_out_day, clock_out_hour) VALUES (?,?,?)", ( self.id_entry , self.format_current_day_out() , self.format_current_hour_out() )
-            )
+        order_out = '''SELECT MAX(ID) from clock WHERE worker = ? LIMIT 1 '''
+
+        clock_out_var = '''UPDATE clock SET clock_out_day = ?, clock_out_hour = ? WHERE ID = ?'''
+
+        cursor.execute(order_out, (self.id_entry))
+
+        resultado = cursor.fetchone()
+
+        if resultado:
+            print(resultado)
+            cursor.execute(clock_out_var, (self.format_current_day(), self.format_current_hour(), resultado[0]))
 
         conn.commit()
 
