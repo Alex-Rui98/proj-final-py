@@ -38,6 +38,9 @@ class LoggedWindow:
         self.clock_btn = ctk.CTkButton(self.button_frame, text='CLOCK', font=font_normal, command=self.register_clock, fg_color='#006D77')
         self.clock_btn.grid(row=0, column=0, padx=20, pady=10)
 
+        self.clock_btn = ctk.CTkButton(self.button_frame, text='CLOCK OUT', font=font_normal, command=self.register_clock_out, fg_color='#006D77')
+        self.clock_btn.grid(row=0, column=2, padx=20, pady=10)
+
     def format_current_day(self):
         current_day = datetime.now().strftime("%Y-%m-%d") 
         return current_day
@@ -54,6 +57,31 @@ class LoggedWindow:
 
         cursor.execute(
             "INSERT INTO clock (worker, clock_in_day, clock_in_hour) VALUES (?,?,?)", ( self.id_entry , self.format_current_day() , self.format_current_hour() )
+            )
+
+        conn.commit()
+
+        conn.close()
+
+
+
+
+    def format_current_day_out(self):
+        current_day = datetime.now().strftime("%Y-%m-%d") 
+        return current_day
+        
+    def format_current_hour_out(self):
+        current_hour = datetime.now().strftime("%H:%M")
+        return current_hour
+    
+    def register_clock_out(self):
+
+        conn = sqlite3.connect('func.db')
+            
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "INSERT INTO clock (worker, clock_out_day, clock_out_hour) VALUES (?,?,?)", ( self.id_entry , self.format_current_day_out() , self.format_current_hour_out() )
             )
 
         conn.commit()
