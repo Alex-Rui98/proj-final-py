@@ -76,7 +76,7 @@ class LoggedWindow:
 
         clock_out_var = '''UPDATE clock SET clock_out_day = ?, clock_out_hour = ? WHERE ID = ?'''
 
-        cursor.execute(order_out, (self.id_entry))
+        cursor.execute(order_out, (self.id_entry,))
 
         resultado = cursor.fetchone()
 
