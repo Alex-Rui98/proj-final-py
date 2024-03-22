@@ -34,12 +34,29 @@ class LoggedWindow:
         self.welcome_lbl = ctk.CTkLabel(self.top_frame, text='Employee Management', font=font_grande, text_color="#006D77", bg_color="#EDF6F9")
 
        # self.logged_window.mainloop()
+        self.clock_state = "clockin"
         
-        self.clock_btn = ctk.CTkButton(self.button_frame, text='CLOCK', font=font_normal, command=self.register_clock, fg_color='#006D77')
-        self.clock_btn.grid(row=0, column=0, padx=20, pady=10)
+        self.clock_btn_in = ctk.CTkButton(self.button_frame, text='CLOCK IN', font=font_normal, command=self.toggle_button, fg_color='#006D77')
+        self.clock_btn_in.grid(row=0, column=0, padx=20, pady=10)
 
-        self.clock_btn = ctk.CTkButton(self.button_frame, text='CLOCK OUT', font=font_normal, command=self.register_clock_out, fg_color='#006D77')
-        self.clock_btn.grid(row=0, column=2, padx=20, pady=10)
+        self.clock_btn_out = ctk.CTkButton(self.button_frame, text='CLOCK OUT', font=font_normal, command=self.toggle_button, fg_color='#006D77')
+        self.clock_btn_out.grid(row=0, column=2, padx=20, pady=10)
+        self.clock_btn_out.grid_remove()
+
+    def toggle_button(self):
+        if self.clock_state == 'clockin':
+            self.register_clock()
+            self.clock_btn_in.grid_remove()
+            self.clock_btn_out.grid(row=0, column=2, padx=20, pady=10)
+            self.clock_state = 'clockout'
+            
+        else:
+            self.register_clock_out()
+            self.clock_btn_out.grid_remove()
+            self.clock_btn_in.grid(row=0, column=0, padx=20, pady=10)
+            self.clock_state = 'clockin'
+
+    
 
     def format_current_day(self):
         current_day = datetime.now().strftime("%Y-%m-%d") 
