@@ -82,11 +82,12 @@ class CheckLogin:
     def check_credentials(self, id_entry, password_entry):
         # efetua conexão com a db
         conn = sqlite3.connect('func.db')
-        cursor = conn.cursor()
+        cursor = conn.cursor() 
 
         # pedir a tabela da db o id que seja identico ao introduzido
         cursor.execute("SELECT password FROM funcionario WHERE id = ?", (id_entry,))
         result = cursor.fetchone()
+        id_int = int(self.id_entry.get())
 
         if result:
             stored_password_hash = result[0]
@@ -99,13 +100,20 @@ class CheckLogin:
             hashed_password = hashlib.pbkdf2_hmac('sha256', password_entry.encode('utf-8'), stored_salt, 100000).hex()
 
             # comparação da password introduzida com a da db
-            if hashed_password == stored_password_hash_hex:
+            # verificação se é funcionario ou administrador
+            if hashed_password == stored_password_hash_hex and id_int < 36000:
                 CTkMessagebox(title="", message="Login was succesful!",
                   icon="check", option_1="Thanks")
                 self.main_window.withdraw()
                 nova_janela = LoggedWindow(id_entry)
                 nova_janela.logged_window.mainloop()
-                
+            # verificação se é funcionario ou administrador
+            elif hashed_password == stored_password_hash_hex and id_int >= 36000:
+                CTkMessagebox(title="", message="Login was succesful!",
+                  icon="check", option_1="Thanks")
+                self.main_window.withdraw()
+                nova_janela = LoggedWindow(id_entry)
+                nova_janela.logged_window.mainloop()
                 
             else:
                 CTkMessagebox(title="", message="Login wasn't successful", icon="cancel")

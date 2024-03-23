@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from CTkMessagebox import CTkMessagebox
 from datetime import datetime
 import sqlite3
 
@@ -36,10 +37,10 @@ class LoggedWindow:
        # self.logged_window.mainloop()
         self.clock_state = "clockin"
         
-        self.clock_btn_in = ctk.CTkButton(self.button_frame, text='CLOCK IN', font=font_normal, command=self.toggle_button, fg_color='#006D77')
+        self.clock_btn_in = ctk.CTkButton(self.button_frame, text='CLOCK IN', font=font_normal_bold,text_color="#EDF6F9", command=self.toggle_button, fg_color='#8ac926')
         self.clock_btn_in.grid(row=0, column=0, padx=20, pady=10)
 
-        self.clock_btn_out = ctk.CTkButton(self.button_frame, text='CLOCK OUT', font=font_normal, command=self.toggle_button, fg_color='#006D77')
+        self.clock_btn_out = ctk.CTkButton(self.button_frame, text='CLOCK OUT', font=font_normal_bold,text_color="#EDF6F9", command=self.toggle_button, fg_color='#ff595e')
         self.clock_btn_out.grid(row=0, column=2, padx=20, pady=10)
         self.clock_btn_out.grid_remove()
 
@@ -49,12 +50,16 @@ class LoggedWindow:
             self.clock_btn_in.grid_remove()
             self.clock_btn_out.grid(row=0, column=2, padx=20, pady=10)
             self.clock_state = 'clockout'
+            self.registration_success_message = CTkMessagebox(message="Clock in efetuado com sucesso!",
+                  icon="check", option_1="Thanks")
             
         else:
             self.register_clock_out()
             self.clock_btn_out.grid_remove()
             self.clock_btn_in.grid(row=0, column=0, padx=20, pady=10)
             self.clock_state = 'clockin'
+            self.registration_success_message = CTkMessagebox(message="Clock out efetuado com sucesso!",
+                  icon="check", option_1="Thanks")
 
     
 
