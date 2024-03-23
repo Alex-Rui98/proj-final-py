@@ -1,7 +1,7 @@
 #imports
 import customtkinter as ctk
 from classes.window.window_register import RegisterWindow
-from classes.window.window_logged import LoggedWindow
+from classes.window.window_logged import Admin, Func
 import hashlib
 import sqlite3
 from CTkMessagebox import CTkMessagebox
@@ -102,17 +102,19 @@ class CheckLogin:
             # comparação da password introduzida com a da db
             # verificação se é funcionario ou administrador
             if hashed_password == stored_password_hash_hex and id_int < 36000:
+                print("Entrando como Administrador")
                 CTkMessagebox(title="", message="Login was succesful!",
                   icon="check", option_1="Thanks")
                 self.main_window.withdraw()
-                nova_janela = LoggedWindow(id_entry)
+                nova_janela = Admin(id_entry)
                 nova_janela.logged_window.mainloop()
             # verificação se é funcionario ou administrador
             elif hashed_password == stored_password_hash_hex and id_int >= 36000:
+                print("Entrando como Funcionario")
                 CTkMessagebox(title="", message="Login was succesful!",
                   icon="check", option_1="Thanks")
                 self.main_window.withdraw()
-                nova_janela = LoggedWindow(id_entry)
+                nova_janela = Func(id_entry)
                 nova_janela.logged_window.mainloop()
                 
             else:
