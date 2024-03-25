@@ -41,14 +41,14 @@ class Admin():
        # self.logged_window.mainloop()
         self.clock_state = "clockin"
         if cargo == "administrador":
-            self.search = ctk.CTkButton(self.button_frame, text='Pesquisa', font=self.font_normal_bold,text_color="#EDF6F9", command=lambda: self.open_search(), fg_color='#8ac926')
-            self.search.grid(row=2, column=0, padx=20, pady=10)
+            self.search = ctk.CTkButton(self.button_frame, text='Pesquisa', font=self.font_normal_bold,text_color="#EDF6F9", command=lambda: self.open_search(), fg_color='#006D77')
+            self.search.grid(row=0, column=0, padx=20, pady=10)
         
         self.clock_btn_in = ctk.CTkButton(self.button_frame, text='CLOCK IN', font=self.font_normal_bold,text_color="#EDF6F9", command=self.toggle_button, fg_color='#8ac926')
-        self.clock_btn_in.grid(row=0, column=0, padx=20, pady=10)
+        self.clock_btn_in.grid(row=2, column=0, padx=20, pady=10)
 
         self.clock_btn_out = ctk.CTkButton(self.button_frame, text='CLOCK OUT', font=self.font_normal_bold,text_color="#EDF6F9", command=self.toggle_button, fg_color='#ff595e')
-        self.clock_btn_out.grid(row=0, column=0, padx=20, pady=10)
+        self.clock_btn_out.grid(row=2, column=0, padx=20, pady=10)
         self.clock_btn_out.grid_remove()
 
     def open_search(self):
@@ -57,7 +57,7 @@ class Admin():
         if self.clock_state == 'clockin':
             self.register_clock()
             self.clock_btn_in.grid_remove()
-            self.clock_btn_out.grid(row=0, column=0, padx=20, pady=10)
+            self.clock_btn_out.grid(row=2, column=0, padx=20, pady=10)
             self.clock_state = 'clockout'
             self.registration_success_message = CTkMessagebox(message="Clock in efetuado com sucesso!",
                   icon="check", option_1="Thanks")
@@ -65,7 +65,7 @@ class Admin():
         else:
             self.register_clock_out()
             self.clock_btn_out.grid_remove()
-            self.clock_btn_in.grid(row=0, column=0, padx=20, pady=10)
+            self.clock_btn_in.grid(row=2, column=0, padx=20, pady=10)
             self.clock_state = 'clockin'
             self.registration_success_message = CTkMessagebox(message="Clock out efetuado com sucesso!",
                   icon="check", option_1="Thanks")

@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import simpledialog
 import sqlite3
 from difflib import SequenceMatcher
+from CTkMessagebox import CTkMessagebox
 
 class CustomSearchButton(ttk.Frame):
     def __init__(self, master, table_frame, data, *args, **kwargs):
@@ -84,17 +85,41 @@ class EditableTable(ttk.Frame):
         self.display_data()
 
  
-    def edit_cell(self, event):
-        item = self.table.selection()[0]
+    def edit_cell(self, event):         
+        item = self.table.selection()[0]         
         column = self.table.identify_column(event.x)
-        if column != "#0":  # Não permitir edição da coluna ID
-            cell_value = self.table.item(item, "values")[int(column[1:]) - 1]
-            new_value = self.ask_for_input("Edit value", f"New value for {column}:", initial_value=cell_value)
-            if new_value is not None:
+        column_name = column
+        
+        print(column)         
+        if column != "#0":  # Não permitir edição da coluna ID            
+            cell_value = self.table.item(item, "values")[int(column[1:]) - 1]            
+            new_value = self.ask_for_input("Edit value", f"New value for {column}:", initial_value=cell_value)             
+            if new_value is not None:                 
+                # Update the data                
+                row_id = self.table.item(item, "values")[0] 
+                 # Assuming ID is the first column                
+                if column_name == "#1":
+                    CTkMessagebox(title="", message="Não é possivel editar o ID", icon="cancel")
+                if column_name == "#2":
+                    column_name = 'primeiro_nome'
+                if column_name == "#3":
+                    column_name = 'ultimo_nome'
+                if column_name == "#4":
+                    column_name = 'cargo'
+                 # Column name in lowercase               
+                self.update_data(row_id, column_name, new_value)               
+                  # Update the table display               
                 self.table.set(item, column, new_value)
- 
+
     def ask_for_input(self, title, prompt, initial_value=""):
         return simpledialog.askstring(title, prompt, initialvalue=initial_value)
+    
+    def update_data(self, row_id, column_name, new_value):         
+        conn = sqlite3.connect('func.db')         
+        cursor = conn.cursor()         
+        cursor.execute(f"UPDATE funcionario SET {column_name} = ? WHERE ID = ?", (new_value, row_id))
+        conn.commit()
+        conn.close()
  
 class MyApp(tk.Tk):
     def __init__(self, *args, **kwargs):
