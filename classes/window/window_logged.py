@@ -1,8 +1,11 @@
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
-from classes.window.window_search import MyApp
+from classes.window.window_search import MySearch
+from classes.window.window_attendance import Attendance
 from datetime import datetime
 import sqlite3
+import datetime
+import time
 
 class Admin():
 
@@ -31,6 +34,13 @@ class Admin():
         self.button_frame = ctk.CTkFrame(self.logged_window, fg_color="#EDF6F9")
         self.button_frame.pack(pady=20, padx=10)
 
+        while True:
+            RTC = datetime.datetime.now()
+            self.clock_lbl = ctk.CTkLabel(self.top_frame, text= f"{str(RTC.hour) } : {str(RTC.minute)} : {str(RTC.second)}", font=self.font_grande, text_color="#006D77", bg_color="#EDF6F9")
+            self.clock_lbl.grid(row=10, column=0,padx=20, pady=10)
+            time.sleep(1)
+            break
+        
 
         self.welcome_lbl = ctk.CTkLabel(self.top_frame, text=f"{primeiro_nome} {ultimo_nome}", font=self.font_grande, text_color="#006D77", bg_color="#EDF6F9")
         self.welcome_lbl.grid(row=0, column=0,padx=20, pady=10)
@@ -43,21 +53,25 @@ class Admin():
         if cargo == "administrador":
             self.search = ctk.CTkButton(self.button_frame, text='Pesquisa', font=self.font_normal_bold,text_color="#EDF6F9", command=lambda: self.open_search(), fg_color='#006D77')
             self.search.grid(row=0, column=0, padx=20, pady=10)
+            self.attendance = ctk.CTkButton(self.button_frame, text='Faltas', font=self.font_normal_bold,text_color="#EDF6F9", command=lambda: self.open_absence(), fg_color='#006D77')
+            self.attendance.grid(row=2, column=0, padx=20, pady=10)
         
         self.clock_btn_in = ctk.CTkButton(self.button_frame, text='CLOCK IN', font=self.font_normal_bold,text_color="#EDF6F9", command=self.toggle_button, fg_color='#8ac926')
-        self.clock_btn_in.grid(row=2, column=0, padx=20, pady=10)
+        self.clock_btn_in.grid(row=3, column=0, padx=20, pady=10)
 
         self.clock_btn_out = ctk.CTkButton(self.button_frame, text='CLOCK OUT', font=self.font_normal_bold,text_color="#EDF6F9", command=self.toggle_button, fg_color='#ff595e')
-        self.clock_btn_out.grid(row=2, column=0, padx=20, pady=10)
+        self.clock_btn_out.grid(row=3, column=0, padx=20, pady=10)
         self.clock_btn_out.grid_remove()
 
     def open_search(self):
-        MyApp()
+        MySearch()
+    def open_absence(self):
+        Attendance()
     def toggle_button(self):
         if self.clock_state == 'clockin':
             self.register_clock()
             self.clock_btn_in.grid_remove()
-            self.clock_btn_out.grid(row=2, column=0, padx=20, pady=10)
+            self.clock_btn_out.grid(row=3, column=0, padx=20, pady=10)
             self.clock_state = 'clockout'
             self.registration_success_message = CTkMessagebox(message="Clock in efetuado com sucesso!",
                   icon="check", option_1="Thanks")
@@ -65,7 +79,7 @@ class Admin():
         else:
             self.register_clock_out()
             self.clock_btn_out.grid_remove()
-            self.clock_btn_in.grid(row=2, column=0, padx=20, pady=10)
+            self.clock_btn_in.grid(row=3, column=0, padx=20, pady=10)
             self.clock_state = 'clockin'
             self.registration_success_message = CTkMessagebox(message="Clock out efetuado com sucesso!",
                   icon="check", option_1="Thanks")
