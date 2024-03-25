@@ -2,10 +2,9 @@ import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 from classes.window.window_search import MySearch
 from classes.window.window_attendance import Attendance
-from datetime import datetime
-import sqlite3
 import datetime
-import time
+import sqlite3
+
 
 class Admin():
 
@@ -14,6 +13,7 @@ class Admin():
         self.logged_window = ctk.CTk()
         self.logged_window.title("Employee Management")
         self.logged_window.configure(fg_color="#EDF6F9")
+        
 
         #guardar ID numa variável
         self.id_entry = id
@@ -23,30 +23,28 @@ class Admin():
         self.font_normal = ctk.CTkFont(family="Arial", size=14, weight="normal")
         self.font_grande = ctk.CTkFont(family="Arial", size=20, weight="bold")
 
-        # Create frames for better organization
+        # Frames
         self.top_frame = ctk.CTkFrame(self.logged_window)
         self.top_frame.configure(fg_color="#EDF6F9")
         self.top_frame.pack(pady=20, padx=10)
+
+        self.clock_frame = ctk.CTkFrame(self.logged_window)
+        self.clock_frame.configure(fg_color="#EDF6F9")
+        self.clock_frame.pack(pady=20, padx=10)
+
 
         self.input_frame = ctk.CTkFrame(self.logged_window, fg_color="#EDF6F9")
         self.input_frame.pack(pady=20, padx=10)
 
         self.button_frame = ctk.CTkFrame(self.logged_window, fg_color="#EDF6F9")
         self.button_frame.pack(pady=20, padx=10)
-
-        while True:
-            RTC = datetime.datetime.now()
-            self.clock_lbl = ctk.CTkLabel(self.top_frame, text= f"{str(RTC.hour) } : {str(RTC.minute)} : {str(RTC.second)}", font=self.font_grande, text_color="#006D77", bg_color="#EDF6F9")
-            self.clock_lbl.grid(row=10, column=0,padx=20, pady=10)
-            time.sleep(1)
-            break
         
 
         self.welcome_lbl = ctk.CTkLabel(self.top_frame, text=f"{primeiro_nome} {ultimo_nome}", font=self.font_grande, text_color="#006D77", bg_color="#EDF6F9")
-        self.welcome_lbl.grid(row=0, column=0,padx=20, pady=10)
+        self.welcome_lbl.grid(row=0, column=0,padx=20, pady=0)
 
-        self.welcome_lbl = ctk.CTkLabel(self.top_frame, text=cargo, font=self.font_normal, text_color="#006D77", bg_color="#EDF6F9")
-        self.welcome_lbl.grid(row=1, column=0,padx=20, pady=10)
+        self.welcome_lbl = ctk.CTkLabel(self.top_frame, text=cargo.capitalize(), font=self.font_normal, text_color="#006D77", bg_color="#EDF6F9")
+        self.welcome_lbl.grid(row=1, column=0,padx=20, pady=0)
 
        # self.logged_window.mainloop()
         self.clock_state = "clockin"
@@ -63,6 +61,17 @@ class Admin():
         self.clock_btn_out.grid(row=3, column=0, padx=20, pady=10)
         self.clock_btn_out.grid_remove()
 
+        self.time_lbl = ctk.CTkLabel(self.clock_frame,text="Hora atual: ", font=self.font_normal, text_color="#006D77", bg_color="#EDF6F9")
+        self.time_lbl.grid(row=9, column=0,padx=0, pady=0)
+        self.clock_lbl = ctk.CTkLabel(self.clock_frame, font=self.font_grande, text_color="#006D77", bg_color="#EDF6F9")
+        self.clock_lbl.grid(row=10, column=0,padx=20, pady=0)
+
+        self.update_clock()
+
+    def update_clock(self):
+        RTC = datetime.datetime.now()
+        self.clock_lbl.configure(text=f"{str(RTC.hour)} : {str(RTC.minute)} : {str(RTC.second)}")
+        self.logged_window.after(1000, self.update_clock)
     def open_search(self):
         MySearch()
     def open_absence(self):
@@ -87,11 +96,11 @@ class Admin():
     
 
     def format_current_day(self):
-        current_day = datetime.now().strftime("%Y-%m-%d") 
+        current_day = datetime.datetime.now().strftime("%Y-%m-%d") 
         return current_day
         
     def format_current_hour(self):
-        current_hour = datetime.now().strftime("%H:%M")
+        current_hour = datetime.datetime.now().strftime("%H:%M")
         return current_hour
     
     def register_clock(self):
