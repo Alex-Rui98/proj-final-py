@@ -68,6 +68,7 @@ class EditableTable(ttk.Frame):
         self.table.pack(expand=True, fill="both", padx=5, pady=5)
  
         self.table.bind("<Double-3>", self.absence)
+        
  
         self.display_data()
         
@@ -77,7 +78,7 @@ class EditableTable(ttk.Frame):
             data = self.data
 
         for idx, person in enumerate(data):
-            self.table.insert("", "end", text=str(idx), values=(person["ID"], person["Name"], person["Absence Day"], person["Description"]))
+            self.table.insert("", "end", text=str(idx), values=(person["ID"], person["worker"], person["day"], person["description"]))
     
     def refresh_table(self, new_data):
         # Clear the existing items in the table
