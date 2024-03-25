@@ -3,7 +3,7 @@ from tkinter import Tk, messagebox
 import sqlite3
 import hashlib
 import os
-from classes.window.window_logged import Admin, Func
+from classes.window.window_logged import Admin
 import customtkinter as ctk
 from CTkMessagebox import CTkMessagebox
 import tkcalendar as tkc
