@@ -50,7 +50,7 @@ class CustomSearchButton(ttk.Frame):
             if str(id) == self.search_entry.get():
                 filtered_data.append({ "ratio": 1.0, "person": person })
                 break
-            elif s.ratio() > 0.5:
+            elif s.ratio() > 0.3:
                 filtered_data.append({ "ratio": s.ratio(), "person": person })
 
         filtered_data.sort(key=lambda x:x['ratio'], reverse=True)

@@ -9,10 +9,6 @@ cursor = conn.cursor()
 
 #comando SQL para criar tabela
 
-#id integer pk
-#utilizador text not null unique
-#password text not null
-
 drop_table = '''
     DROP TABLE IF EXISTS clock
     '''

@@ -4,6 +4,7 @@ from classes.window.window_search import MySearch
 from classes.window.window_attendance import Attendance
 import datetime
 import sqlite3
+from newspaper import Article
 
 
 class Admin():
@@ -32,7 +33,6 @@ class Admin():
         self.clock_frame.configure(fg_color="#EDF6F9")
         self.clock_frame.pack(pady=20, padx=10)
 
-
         self.input_frame = ctk.CTkFrame(self.logged_window, fg_color="#EDF6F9")
         self.input_frame.pack(pady=20, padx=10)
 
@@ -45,6 +45,7 @@ class Admin():
 
         self.welcome_lbl = ctk.CTkLabel(self.top_frame, text=cargo.capitalize(), font=self.font_normal, text_color="#006D77", bg_color="#EDF6F9")
         self.welcome_lbl.grid(row=1, column=0,padx=20, pady=0)
+
 
        # self.logged_window.mainloop()
         self.clock_state = "clockin"
@@ -65,6 +66,20 @@ class Admin():
         self.time_lbl.grid(row=9, column=0,padx=0, pady=0)
         self.clock_lbl = ctk.CTkLabel(self.clock_frame, font=self.font_grande, text_color="#006D77", bg_color="#EDF6F9")
         self.clock_lbl.grid(row=10, column=0,padx=20, pady=0)
+
+
+        self.news_url= ('https://www.nytimes.com/interactive/2024/science/total-solar-eclipse-maps-path.html')
+        self.news_article = Article(self.news_url, language= 'en')
+        self.news_article.download()
+        self.news_article.parse()
+        self.news_text = self.news_article.text
+        print(self.news_text)
+        
+        self.news_text_box = ctk.CTkTextbox(self.clock_frame, text=self.news_text, font=self.font_normal, text_color="#006D77", bg_color="#EDF6F9")
+        self.news_text_box.grid(row=8, column=0, padx=0, pady=0)
+        self.news_text_box.insert(1.0 , self.news_text)
+
+
 
         self.update_clock()
 
