@@ -1,7 +1,7 @@
 #imports
 import customtkinter as ctk
 from classes.window.window_register import RegisterWindow
-from classes.window.window_logged import Admin, Func
+from classes.window.window_logged import Admin
 import hashlib
 import sqlite3
 from CTkMessagebox import CTkMessagebox
@@ -85,14 +85,12 @@ class CheckLogin:
         cursor = conn.cursor() 
 
         # pedir a tabela da db o id que seja identico ao introduzido
-        cursor.execute("SELECT password FROM funcionario WHERE id = ?", (id_entry,))
-        result = cursor.fetchone()
-        id_int = int(self.id_entry.get())
+        cursor.execute("SELECT * FROM funcionario WHERE id = ?", (id_entry,))
+        user = cursor.fetchone()
 
-        if result:
-            stored_password_hash = result[0]
+        if user:
             # dividir a password entre salt e hash visto que já se encontram divididos por ":"
-            stored_salt_hex, stored_password_hash_hex = stored_password_hash.split(':')
+            stored_salt_hex, stored_password_hash_hex = user[10].split(':')
             # Converter o salt para bytes
             stored_salt = bytes.fromhex(stored_salt_hex)
 
@@ -101,25 +99,19 @@ class CheckLogin:
 
             # comparação da password introduzida com a da db
             # verificação se é funcionario ou administrador
-            if hashed_password == stored_password_hash_hex and id_int < 36000:
-                print("Entrando como Administrador")
-                CTkMessagebox(title="", message="Login was succesful!",
-                  icon="check", option_1="Thanks")
-                self.main_window.withdraw()
-                nova_janela = Admin(id_entry)
-                nova_janela.logged_window.mainloop()
-            # verificação se é funcionario ou administrador
-            elif hashed_password == stored_password_hash_hex and id_int >= 36000:
-                print("Entrando como Funcionario")
-                CTkMessagebox(title="", message="Login was succesful!",
-                  icon="check", option_1="Thanks")
-                self.main_window.withdraw()
-                nova_janela = Func(id_entry)
-                nova_janela.logged_window.mainloop()
+
+            if hashed_password == stored_password_hash_hex:
+                print(f"Entrando como {user[9]}")
                 
+                CTkMessagebox(title="", message="Login was succesful!",
+                  icon="check", option_1="Thanks")
+                self.main_window.withdraw()
+                nova_janela = Admin(user[0], user[1], user[2], user[9])
+                nova_janela.logged_window.mainloop()
             else:
                 CTkMessagebox(title="", message="Login wasn't successful", icon="cancel")
                 return False
+                
         else:
           
             CTkMessagebox(title="", message="User not found", icon="cancel")
