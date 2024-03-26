@@ -19,7 +19,7 @@ class Absence:
         self.id_entry.grid(row=0, column=1, pady=10, sticky="ew")
 
         # config entry date
-        self.absence_date_label = ctk.CTkLabel(self.register_window, text="worker", font=font_normal_bold, text_color="#006D77", bg_color="#EDF6F9")
+        self.absence_date_label = ctk.CTkLabel(self.register_window, text="Date of absence", font=font_normal_bold, text_color="#006D77", bg_color="#EDF6F9")
         self.absence_date_label.grid(row=1, column=0, sticky="e", pady=10)
         self.absence_date_entry = tkc.DateEntry(self.register_window, font=font_normal_bold, text_color="#006D77", bg_color="#EDF6F9", max_width=50, date_pattern='dd-mm-yyyy')
         self.absence_date_entry.grid(row=1, column=1, pady=10, sticky="ew")

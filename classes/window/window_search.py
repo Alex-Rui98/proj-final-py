@@ -21,7 +21,7 @@ class CustomSearchButton(ttk.Frame):
         self.search_entry = ttk.Entry(self, textvariable=self.search_var)
         self.search_entry.pack(side=tk.LEFT, padx=5, pady=5)
 
-        self.search_button = ttk.Button(self, text="Employees",command=self.search_table)
+        self.search_button = ttk.Button(self, text="Search",command=self.search_table)
         self.search_button.pack(side=tk.LEFT, padx=5, pady=5)
         
         self.reset_button = ttk.Button(self, text="Reset",command=self.reset_table)
