@@ -10,22 +10,25 @@ class CustomSearchButton(ttk.Frame):
     def __init__(self, master, table_frame, data, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
 
+        #necessary arguments
         self.table_frame = table_frame
         self.data = data
         
         self.search_var = tk.StringVar()
     
+        #window config
+        
         self.search_entry = ttk.Entry(self, textvariable=self.search_var)
         self.search_entry.pack(side=tk.LEFT, padx=5, pady=5)
 
-        self.search_button = ttk.Button(self, text="Procurar",command=self.search_table)
+        self.search_button = ttk.Button(self, text="Employees",command=self.search_table)
         self.search_button.pack(side=tk.LEFT, padx=5, pady=5)
         
         self.reset_button = ttk.Button(self, text="Reset",command=self.reset_table)
         self.reset_button.pack(side=tk.LEFT, padx=5, pady=5)
 
         
-        self.absence_button = ttk.Button(self, text="Faltas",command=lambda: Absence())
+        self.absence_button = ttk.Button(self, text="Absences",command=lambda: Absence())
         self.absence_button.pack(side=tk.LEFT, padx=5, pady=5)
 
 
@@ -33,6 +36,8 @@ class CustomSearchButton(ttk.Frame):
 
     def reset_table(self):
         self.table_frame.refresh_table(self.data)
+    
+    #function to filter data
     def search_table(self):
         filtered_data = []
 
@@ -67,19 +72,19 @@ class EditableTable(ttk.Frame):
         super().__init__(master, *args, **kwargs)
         self.data = data
 
-        
-        
+        #tree view config
         self.table = ttk.Treeview(self, columns=("ID", "First Name", "Last Name", "Permission"), show="headings")
         self.table.heading("ID", text="ID")
         self.table.heading("First Name", text="First Name")
         self.table.heading("Last Name", text="Last Name")
         self.table.heading("Permission", text="Permission")
         self.table.pack(expand=True, fill="both", padx=5, pady=5)
-       # self.table.iconbitmap('assets/clock_icon.ico')
- 
+        #self.table.iconbitmap('assets/clock_icon.ico')
+
+        #binding mouse 1 to function
         self.table.bind("<Double-1>", self.edit_cell)
         
- 
+        #set function to display data on tree view
         self.display_data()
         
  
@@ -99,7 +104,7 @@ class EditableTable(ttk.Frame):
         self.data = new_data
         self.display_data()
 
- 
+    #function to edit cell values
     def edit_cell(self, event):         
         item = self.table.selection()[0]         
         column = self.table.identify_column(event.x)
@@ -126,16 +131,19 @@ class EditableTable(ttk.Frame):
                   # Update the table display               
                 self.table.set(item, column, new_value)
 
+    #ask for user input
     def ask_for_input(self, title, prompt, initial_value=""):
         return simpledialog.askstring(title, prompt, initialvalue=initial_value)
     
+    # connect and update data on the data base
     def update_data(self, row_id, column_name, new_value):         
         conn = sqlite3.connect('func.db')         
         cursor = conn.cursor()         
         cursor.execute(f"UPDATE employee SET {column_name} = ? WHERE ID = ?", (new_value, row_id))
         conn.commit()
         conn.close()
- 
+
+#class to run the window
 class MySearch(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -150,7 +158,7 @@ class MySearch(tk.Tk):
         self.search_button.pack(padx=10, pady=10)
         self.table_frame.pack(expand=True, fill="both", padx=10, pady=10)
 
-
+    #connection to retrieve all database entries
     def db_get(self):
         conn = sqlite3.connect('func.db')
         cursor = conn.cursor()
