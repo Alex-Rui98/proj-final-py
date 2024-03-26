@@ -65,7 +65,6 @@ class EditableTable(ttk.Frame):
         self.data = data
         
         #Column and table viewer set
-        #self.iconbitmap('assets/clock_icon.ico')
         self.table = ttk.Treeview(self, columns=("ID", "Worker ID", "Absence Day", "Description"), show="headings")
         self.table.heading("ID", text="ID")
         self.table.heading("Worker ID", text="Worker ID")
@@ -126,6 +125,8 @@ class Attendance(tk.Tk):
         self.title("Absence Sheet")
         
         self.data = self.db_get()
+
+        self.iconbitmap('assets/clock_icon.ico')
 
         self.table_frame = EditableTable(self, self.data)
         self.search_button = CustomSearchButton(self, self.table_frame, self.data)

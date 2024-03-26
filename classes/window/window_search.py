@@ -151,6 +151,8 @@ class MySearch(tk.Tk):
         
         self.data = self.db_get()
 
+        self.iconbitmap('assets/clock_icon.ico')
+
         self.table_frame = EditableTable(self, self.data)
         self.search_button = CustomSearchButton(self, self.table_frame, self.data)
 
