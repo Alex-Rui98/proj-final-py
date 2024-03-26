@@ -23,7 +23,7 @@ class Admin():
         self.id_entry = id
 
         # store font
-        self.font_small = ctk.CTkFont(family="Arial", size=10, weight="normal")
+        self.font_small = ctk.CTkFont(family="Arial", size=12, weight="normal")
         self.font_normal_bold = ctk.CTkFont(family="Arial", size=14, weight="bold")
         self.font_normal = ctk.CTkFont(family="Arial", size=14, weight="normal")
         self.font_grande = ctk.CTkFont(family="Arial", size=20, weight="bold")
@@ -38,7 +38,8 @@ class Admin():
         self.top_frame.columnconfigure(0, weight=1)
         self.top_frame.columnconfigure(1, weight=1)
         self.top_frame.columnconfigure(2, weight=1)
-        self.top_frame.columnconfigure(3, weight=1)
+        self.top_frame.grid_columnconfigure(1, weight=1)
+        self.top_frame.grid_rowconfigure(1, weight=1)
 
         self.clock_frame = ctk.CTkFrame(self.logged_window)
         self.clock_frame.configure(fg_color="#EDF6F9")
@@ -59,23 +60,21 @@ class Admin():
         #labels and buttons
 
         self.id_display_lbl = ctk.CTkLabel(self.top_frame, text=f"ID: {id}", font=self.font_small, text_color="#006D77", bg_color="#EDF6F9")
-        self.id_display_lbl.grid(row=0, column=0,padx=0, pady=0)
-        
-        
-        self.log_out_btn = ctk.CTkButton(self.top_frame, text='Log out', font=self.font_small,text_color="#006D77", command=lambda: self.log_out(), fg_color="transparent", hover=False)
-        self.log_out_btn.grid(row=0, column=2, padx=0, pady=10, sticky="e")
+        self.id_display_lbl.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
+        self.log_out_btn = ctk.CTkButton(self.top_frame, text='Log out', font=self.font_small, text_color="#006D77", command=lambda: self.log_out(), fg_color="transparent", hover=False,width=20, height=20)
+        self.log_out_btn.grid(row=0, column=2, padx=10, pady=10, sticky="e")
 
         self.welcome_name_lbl = ctk.CTkLabel(self.top_frame, text=f"{first_name} {last_name}", font=self.font_grande, text_color="#006D77", bg_color="#EDF6F9")
-        self.welcome_name_lbl.grid(row=0, column=1,padx=10, pady=10, sticky="nsew")
-        self.welcome_name_lbl.place(relx=0.5, rely=0.5, anchor="center")
-        
-    
+        self.welcome_name_lbl.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
+        self.welcome_name_lbl.place(relx=0.5, rely=0.5, anchor="n")
+
 
         self.welcome_perms_lbl = ctk.CTkLabel(self.top_frame, text=perms.capitalize(), font=self.font_normal, text_color="#006D77", bg_color="#EDF6F9")
-        self.welcome_perms_lbl.grid(row=1, column=1,padx=0, pady=0, sticky="s")
+        self.welcome_perms_lbl.grid(row=1, column=1, padx=10, pady=10, sticky="ew")
+        self.welcome_perms_lbl.place(relx=0.5, rely=0.5, anchor="s")
 
-        
+                
         
     
 
