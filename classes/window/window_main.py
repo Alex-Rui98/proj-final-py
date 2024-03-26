@@ -16,6 +16,8 @@ class MainWindow:
         self.main_window.title("Employee Management")
         self.main_window.configure(fg_color="#EDF6F9")
 
+        self.main_window.after(201, lambda :self.main_window.iconbitmap('C:\\Users\\Manha\\Desktop\\Rui Conceição\\proj-final-py\\assets\\clock_icon.ico'))
+
         # Guardar a font
         font_normal_bold = ctk.CTkFont(family="Arial", size=14, weight="bold")
         font_normal = ctk.CTkFont(family="Arial", size=14, weight="normal")

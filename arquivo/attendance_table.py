@@ -12,7 +12,9 @@ cursor = conn.cursor()
 #id integer pk
 #utilizador text not null unique
 #password text not null
-
+drop_table = '''
+    DROP TABLE IF EXISTS attendance
+    '''
 create_table = '''
     CREATE TABLE IF NOT EXISTS attendance(
     ID INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -26,6 +28,7 @@ create_table = '''
 
 #executar o comando SQL com o cursor
 
+cursor.execute(drop_table)
 cursor.execute(create_table)
 
 #guardar com um commit

@@ -75,7 +75,7 @@ class Admin():
         self.news_text = self.news_article.text
         print(self.news_text)
         
-        self.news_text_box = ctk.CTkTextbox(self.clock_frame, text=self.news_text, font=self.font_normal, text_color="#006D77", bg_color="#EDF6F9")
+        self.news_text_box = ctk.CTkTextbox(self.clock_frame, font=self.font_normal, text_color="#006D77", bg_color="#EDF6F9")
         self.news_text_box.grid(row=8, column=0, padx=0, pady=0)
         self.news_text_box.insert(1.0 , self.news_text)
 
