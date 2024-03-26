@@ -118,9 +118,14 @@ class Admin():
         #call for RTC
         self.update_clock()
 
+
     #logout call
     def log_out(self):
-        self.logged_window.withdraw()
+        from classes.window.window_main import MainWindow
+        self.logged_window.destroy()
+        MainWindow()
+        
+
 
     #RTC refresh function
     def update_clock(self):

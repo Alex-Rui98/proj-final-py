@@ -60,6 +60,9 @@ class MainWindow:
         # Exit button configuration
         self.exit_btn = ctk.CTkButton(self.button_frame, text='Exit', font=font_normal, command=self.main_window.destroy, fg_color='#006D77')
         self.exit_btn.grid(row=0, column=2, padx=20, pady=10)
+        
+        self.main_window.update()
+        self.main_window.deiconify()
 
     #retrive ID for other files
     def id_exp(id_entry):
@@ -73,8 +76,9 @@ class MainWindow:
         CheckLogin(self.main_window, self.login_entry, self.password_entry)
     
     def close_window(self):
-        self.main_window.destroy()
+        self.main_window.withdraw()
 
+        
 class CheckLogin:
     def __init__(self, main_window, id_entry, password_entry):
         self.main_window = main_window
