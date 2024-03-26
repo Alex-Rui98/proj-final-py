@@ -42,13 +42,16 @@ class CustomSearchButton(ttk.Frame):
 
         for person in self.data:
             id = person.get('ID')
-            firstname = person.get('primeiro_nome')
-            lastname = person.get('ultimo_nome')
+            firstname = person.get('first_name')
+            lastname = person.get('last_name')
 
             s = SequenceMatcher(None, str(f"{firstname} {lastname}").lower(), self.search_entry.get().lower())
 
             if str(id) == self.search_entry.get():
                 filtered_data.append({ "ratio": 1.0, "person": person })
+                break
+            elif str(firstname) == self.search_entry.get():
+                filtered_data.append({ "ratio": 0.8, "person": person })
                 break
             elif s.ratio() > 0.3:
                 filtered_data.append({ "ratio": s.ratio(), "person": person })
@@ -63,13 +66,16 @@ class EditableTable(ttk.Frame):
     def __init__(self, master, data, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
         self.data = data
+
         
-        self.table = ttk.Treeview(self, columns=("ID", "Primeiro Nome", "Último Nome", "Cargo"), show="headings")
+        
+        self.table = ttk.Treeview(self, columns=("ID", "First Name", "Last Name", "Permission"), show="headings")
         self.table.heading("ID", text="ID")
-        self.table.heading("Primeiro Nome", text="Primeiro Nome")
-        self.table.heading("Último Nome", text="Último Nome")
-        self.table.heading("Cargo", text="Cargo")
+        self.table.heading("First Name", text="First Name")
+        self.table.heading("Last Name", text="Last Name")
+        self.table.heading("Permission", text="Permission")
         self.table.pack(expand=True, fill="both", padx=5, pady=5)
+       # self.table.iconbitmap('assets/clock_icon.ico')
  
         self.table.bind("<Double-1>", self.edit_cell)
         
@@ -82,7 +88,7 @@ class EditableTable(ttk.Frame):
             data = self.data
 
         for idx, person in enumerate(data):
-            self.table.insert("", "end", text=str(idx), values=(person["ID"], person["primeiro_nome"], person["ultimo_nome"], person["cargo"]))
+            self.table.insert("", "end", text=str(idx), values=(person["ID"], person["first_name"], person["last_name"], person["perms"]))
     
     def refresh_table(self, new_data):
         # Clear the existing items in the table
@@ -108,13 +114,13 @@ class EditableTable(ttk.Frame):
                 row_id = self.table.item(item, "values")[0] 
                  # Assuming ID is the first column                
                 if column_name == "#1":
-                    CTkMessagebox(title="", message="Não é possivel editar o ID", icon="cancel")
+                    CTkMessagebox(title="", message="Not possible to edit ID", icon="cancel")
                 if column_name == "#2":
-                    column_name = 'primeiro_nome'
+                    column_name = 'first_name'
                 if column_name == "#3":
-                    column_name = 'ultimo_nome'
+                    column_name = 'last_name'
                 if column_name == "#4":
-                    column_name = 'cargo'
+                    column_name = 'perms'
                  # Column name in lowercase               
                 self.update_data(row_id, column_name, new_value)               
                   # Update the table display               
@@ -126,14 +132,14 @@ class EditableTable(ttk.Frame):
     def update_data(self, row_id, column_name, new_value):         
         conn = sqlite3.connect('func.db')         
         cursor = conn.cursor()         
-        cursor.execute(f"UPDATE funcionario SET {column_name} = ? WHERE ID = ?", (new_value, row_id))
+        cursor.execute(f"UPDATE employee SET {column_name} = ? WHERE ID = ?", (new_value, row_id))
         conn.commit()
         conn.close()
  
 class MySearch(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.title("Pesquisar Funcionários")
+        self.title("Search employees")
         
         self.data = self.db_get()
 
@@ -149,11 +155,11 @@ class MySearch(tk.Tk):
         conn = sqlite3.connect('func.db')
         cursor = conn.cursor()
 
-        cursor.execute("SELECT ID, primeiro_nome, ultimo_nome, cargo FROM funcionario")
+        cursor.execute("SELECT ID, first_name, last_name, perms FROM employee")
 
         rows = cursor.fetchall()
 
-        result_list = [{"ID": row[0], "primeiro_nome": row[1],"ultimo_nome": row[2], "cargo": row[3]} for row in rows]
+        result_list = [{"ID": row[0], "first_name": row[1],"last_name": row[2], "perms": row[3]} for row in rows]
 
         conn.close()
 

@@ -21,7 +21,7 @@ create_table = '''
     worker INT (5),
     day VARCHAR (20),
     description VARCHAR (150),
-    FOREIGN KEY (worker) REFERENCES funcionario (id)
+    FOREIGN KEY (worker) REFERENCES employee (id)
      );
 '''
 

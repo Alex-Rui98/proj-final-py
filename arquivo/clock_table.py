@@ -1,17 +1,19 @@
 import sqlite3
 
-#ligar à base de dados
+#connect to data base
 conn = sqlite3.connect('func.db')
 
-#criar um cursor
+#create cursor
 
 cursor = conn.cursor()
 
-#comando SQL para criar tabela
+#ensure there's no table
 
 drop_table = '''
     DROP TABLE IF EXISTS clock
     '''
+
+#SQL command to create table
 
 create_table = '''
     CREATE TABLE IF NOT EXISTS clock (
@@ -21,7 +23,7 @@ create_table = '''
     clock_in_hour VARCHAR (12),
     clock_out_day VARCHAR (12),
     clock_out_hour VARCHAR (12), 
-    FOREIGN KEY (worker) REFERENCES funcionario(id) );
+    FOREIGN KEY (worker) REFERENCES employee(id) );
 '''
 
 

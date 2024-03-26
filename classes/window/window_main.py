@@ -1,4 +1,4 @@
-#imports
+#imports 
 import customtkinter as ctk
 from classes.window.window_register import RegisterWindow
 from classes.window.window_logged import Admin
@@ -18,7 +18,7 @@ class MainWindow:
 
         self.main_window.after(201, lambda :self.main_window.iconbitmap('assets\\clock_icon.ico'))
 
-        # Guardar a font
+        # Store font
         font_normal_bold = ctk.CTkFont(family="Arial", size=14, weight="bold")
         font_normal = ctk.CTkFont(family="Arial", size=14, weight="normal")
         font_grande = ctk.CTkFont(family="Arial", size=20, weight="bold")
@@ -61,9 +61,11 @@ class MainWindow:
         self.exit_btn = ctk.CTkButton(self.button_frame, text='Exit', font=font_normal, command=self.main_window.destroy, fg_color='#006D77')
         self.exit_btn.grid(row=0, column=2, padx=20, pady=10)
 
+    #retrive ID for other files
     def id_exp(id_entry):
         return id_entry
 
+    #classes to execute files
     def open_register_window(self):
         RegisterWindow()
  
@@ -80,30 +82,29 @@ class CheckLogin:
         self.password_entry = password_entry
         self.check_credentials(id_entry.get(), password_entry.get())
     
-    
+    #cross-check login details
     def check_credentials(self, id_entry, password_entry):
-        # efetua conexão com a db
+        # connect to database
         conn = sqlite3.connect('func.db')
         cursor = conn.cursor() 
 
-        # pedir a tabela da db o id que seja identico ao introduzido
-        cursor.execute("SELECT * FROM funcionario WHERE id = ?", (id_entry,))
+        # ask database to fetch corresponding ID
+        cursor.execute("SELECT * FROM employee WHERE id = ?", (id_entry,))
         user = cursor.fetchone()
 
         if user:
-            # dividir a password entre salt e hash visto que já se encontram divididos por ":"
+            # divide password and salt by ":"
             stored_salt_hex, stored_password_hash_hex = user[10].split(':')
-            # Converter o salt para bytes
+            # convert salt to bytes
             stored_salt = bytes.fromhex(stored_salt_hex)
 
-            # hash a senha inserida com o sal armazenado
+            # hash password and salt
             hashed_password = hashlib.pbkdf2_hmac('sha256', password_entry.encode('utf-8'), stored_salt, 100000).hex()
 
-            # comparação da password introduzida com a da db
-            # verificação se é funcionario ou administrador
+            # verify password from database and entry
 
             if hashed_password == stored_password_hash_hex:
-                print(f"Entrando como {user[9]}")
+                print(f"Logging in as {user[9]}")
                 
                 CTkMessagebox(title="", message="Login was succesful!",
                   icon="check", option_1="Thanks")

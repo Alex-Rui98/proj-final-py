@@ -17,7 +17,7 @@ class CustomSearchButton(ttk.Frame):
         self.search_entry = ttk.Entry(self, textvariable=self.search_var)
         self.search_entry.pack(side=tk.LEFT, padx=5, pady=5)
 
-        self.search_button = ttk.Button(self, text="Procurar",command=self.search_table)
+        self.search_button = ttk.Button(self, text="Search",command=self.search_table)
         self.search_button.pack(side=tk.LEFT, padx=5, pady=5)
         
         self.reset_button = ttk.Button(self, text="Reset",command=self.reset_table)
@@ -26,21 +26,25 @@ class CustomSearchButton(ttk.Frame):
         
 
     def reset_table(self):
+        #refresh table entries
         self.table_frame.refresh_table(self.data)
     def search_table(self):
+        #initialize list for data filtering
         filtered_data = []
 
+        #refresh table if no results
         if self.search_entry.get() == "":
             self.reset_table()
             return
 
+        #obtain data
         for person in self.data:
             id = person.get('ID')
             worker_id = person.get('worker')
             att_day = person.get('day')
             desc = person.get('description')
 
-
+        #filter settings
             s = SequenceMatcher(None, str(f"{worker_id}").lower(), self.search_entry.get().lower())
 
             if str(id) == self.search_entry.get():
@@ -60,20 +64,20 @@ class EditableTable(ttk.Frame):
         super().__init__(master, *args, **kwargs)
         self.data = data
         
-        self.table = ttk.Treeview(self, columns=("ID", "Name", "Absence Day", "Description"), show="headings")
+        #Column and table viewer set
+        #self.iconbitmap('assets/clock_icon.ico')
+        self.table = ttk.Treeview(self, columns=("ID", "Worker ID", "Absence Day", "Description"), show="headings")
         self.table.heading("ID", text="ID")
-        self.table.heading("Name", text="Name")
+        self.table.heading("Worker ID", text="Worker ID")
         self.table.heading("Absence Day", text="Absence Day")
         self.table.heading("Description", text="Description")
         self.table.pack(expand=True, fill="both", padx=5, pady=5)
- 
-        self.table.bind("<Double-3>", self.absence)
         
- 
         self.display_data()
         
  
     def display_data(self, data=None):
+        #table viewer
         if data is None:
             data = self.data
 
@@ -92,19 +96,13 @@ class EditableTable(ttk.Frame):
  
     def absence(self, event):         
         item = self.table.selection()[0]         
-        column = self.table.identify_column(event.x)
-        column_name = column
-        
-        print(column)         
+        column = self.table.identify_column(event.x)      
               
         cell_value = self.table.item(item, "values")[int(column[1:]) - 1]            
         new_value = self.ask_for_input("Mark absence", f"Please provide details for {row_id}'s absence:", initial_value=cell_value)             
         if new_value is not None:                 
             # Update the data                
             row_id = self.table.item(item, "values")[0] 
-            # Assuming ID is the first column                
-            if column_name == "#2":
-                pass
             # Column name in lowercase               
             self.insert_data(row_id, new_value)               
             # Update the table display               
@@ -113,6 +111,7 @@ class EditableTable(ttk.Frame):
     def ask_for_input(self, title, prompt, initial_value=""):
         return simpledialog.askstring(title, prompt, initialvalue=initial_value)
     
+    #insert absences into data base
     def insert_data(self, row_id, new_value):         
         conn = sqlite3.connect('func.db')         
         cursor = conn.cursor()         
@@ -120,10 +119,11 @@ class EditableTable(ttk.Frame):
         conn.commit()
         conn.close()
  
+#class to run button and table functions
 class Attendance(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.title("Marcação Faltas")
+        self.title("Absence Sheet")
         
         self.data = self.db_get()
 
@@ -133,6 +133,7 @@ class Attendance(tk.Tk):
         self.search_button.pack(padx=10, pady=10)
         self.table_frame.pack(expand=True, fill="both", padx=10, pady=10)
     
+    #function to adquire all absences from data base
     def db_get(self):
         conn = sqlite3.connect('func.db')
         cursor = conn.cursor()
