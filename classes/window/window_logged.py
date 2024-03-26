@@ -107,7 +107,6 @@ class Admin():
         self.news_article.download()
         self.news_article.parse()
         self.news_text = self.news_article.text
-        print(self.news_text)
         
         self.news_text_box = ctk.CTkTextbox(self.news_frame, font=self.font_normal, text_color="#006D77", bg_color="#EDF6F9")
         self.news_text_box.configure(width=500, height=300)

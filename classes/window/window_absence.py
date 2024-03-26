@@ -36,7 +36,7 @@ class Absence:
         self.desc_entry.grid(row=2, column=1, padx=10, sticky="e", pady=10)
 
         # config command button
-        self.mark_btn = ctk.CTkButton(self.absence_window_frame, text="Mark Absence",command=lambda: self.mark_absence())
+        self.mark_btn = ctk.CTkButton(self.absence_window_frame, text="Mark Absence",command=lambda: self.mark_absence(), font=font_normal_bold, fg_color='#006D77', text_color="#EDF6F9")
         self.mark_btn.grid(row=3, column=0,columnspan=2, padx=20, pady=10, sticky="SEW")
 
 
