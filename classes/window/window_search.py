@@ -72,6 +72,7 @@ class EditableTable(ttk.Frame):
         self.table.pack(expand=True, fill="both", padx=5, pady=5)
  
         self.table.bind("<Double-1>", self.edit_cell)
+        
  
         self.display_data()
         
@@ -138,6 +139,7 @@ class MySearch(tk.Tk):
 
         self.table_frame = EditableTable(self, self.data)
         self.search_button = CustomSearchButton(self, self.table_frame, self.data)
+
 
         self.search_button.pack(padx=10, pady=10)
         self.table_frame.pack(expand=True, fill="both", padx=10, pady=10)

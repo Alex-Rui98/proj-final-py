@@ -15,6 +15,8 @@ class Admin():
         self.logged_window.title("Employee Management")
         self.logged_window.configure(fg_color="#EDF6F9")
         
+        #font
+        self.logged_window.after(201, lambda :self.logged_window.iconbitmap('assets\\clock_icon.ico'))
 
         #guardar ID numa variável
         self.id_entry = id

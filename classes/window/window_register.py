@@ -21,6 +21,9 @@ class RegisterWindow:
         self.register_window.attributes('-topmost', True)
         self.register_window.focus_force()
 
+        #Icon
+        self.register_window.after(201, lambda :self.register_window.iconbitmap('assets\\clock_icon.ico'))
+
         # guardar a fonte
         font_normal_bold = ctk.CTkFont(family="Arial", size=14, weight="bold")
 
