@@ -27,11 +27,8 @@ class CustomSearchButton(ttk.Frame):
         self.reset_button = ttk.Button(self, text="Reset",command=self.reset_table)
         self.reset_button.pack(side=tk.LEFT, padx=5, pady=5)
 
-        
         self.absence_button = ttk.Button(self, text="Mark Absence",command=lambda: Absence())
         self.absence_button.pack(side=tk.LEFT, padx=5, pady=5)
-
-
 
 
     def reset_table(self):

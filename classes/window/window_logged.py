@@ -87,7 +87,7 @@ class Admin():
             self.search.grid(row=0, column=0, padx=20, pady=10)
             self.attendance = ctk.CTkButton(self.button_frame, text='Absences', font=self.font_normal_bold,text_color="#EDF6F9", command=lambda: self.open_absence(), fg_color='#006D77')
             self.attendance.grid(row=0, column=1, padx=20, pady=10)
-        
+            
         self.clock_btn_in = ctk.CTkButton(self.button_frame, text='CLOCK IN', font=self.font_normal_bold,text_color="#EDF6F9", command=self.toggle_button, fg_color='#8ac926')
         self.clock_btn_in.grid(row=0, column=2, padx=20, pady=10)
 
